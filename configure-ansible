@@ -1,0 +1,10 @@
+#!/bin/bash
+apt-get update
+apt-get -y install ansible
+[ ! -d /etc/ansible ] && mkdir /etc/ansible
+[ -f /etc/ansible/hosts ] && rm -f /etc/ansible/hosts
+for ROLE in $ROLES; do
+    echo "[${ROLE}]" >> /etc/ansible/hosts
+    echo "127.0.0.1" >> /etc/ansible/hosts
+    echo "" >> /etc/ansible/hosts
+done
