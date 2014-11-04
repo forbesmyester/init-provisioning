@@ -1,0 +1,5 @@
+#!/bin/bash
+
+for ROLE in $ROLES; do
+    ansible-pull -U $ANSIBLE_PULL_REPOSITORY ${ROLE}.yml
+done
