@@ -1,6 +1,7 @@
 #!/bin/bash
 apt-get update
-apt-get -y install ansible
+apt-get -y install python-pip python-dev git
+pip install ansible
 [ ! -d /etc/ansible ] && mkdir /etc/ansible
 [ -f /etc/ansible/hosts ] && rm -f /etc/ansible/hosts
 for ROLE in $ROLES; do
