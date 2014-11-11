@@ -1,5 +1,5 @@
 #!/bin/bash
 
-for ROLE in $ROLES; do
-    ansible-pull -U $ANSIBLE_PULL_REPOSITORY ${ROLE}.yml
+for PLAYBOOK in $PLAYBOOKS; do
+    ansible-pull -U $ANSIBLE_PULL_REPOSITORY ${PLAYBOOK}.yml
 done

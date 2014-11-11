@@ -2,6 +2,7 @@ FROM ubuntu:14.04
 MAINTAINER YOUR_NAME
 
 ENV ROLES common
+ENV PLAYBOOKS terminal_developer
 ENV ANSIBLE_PULL_REPOSITORY 'git@github.com:forbesmyester/provisioning-common.git'
 
 RUN useradd -m -s /bin/bash ubuntu
