@@ -1,6 +1,6 @@
 #!/bin/bash
 su vagrant -c '[ ! -d ~/.ssh ] && mkdir ~/.ssh'
-su vagrant -c 'cp /vagrant/ssh/* ~/.ssh/'
+su vagrant -c 'cp /vagrant/ssh/id_?sa.pub /vagrant/ssh/id_?sa /vagrant/ssh/known_hosts ~/.ssh/'
 su vagrant -c 'chmod 600 ~/.ssh/* ; chmod 700 ~/.ssh'
 /vagrant/configure-ansible
 su vagrant -c /vagrant/run-ansible
