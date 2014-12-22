@@ -1,6 +1,14 @@
 # Custom Vagrant Config
 #
 # NOTE: Specify 'SSH_KEY_TYPE', 'SSH_PRIVATE_KEY', 'SSH_PUBLIC_KEY' and 'ROLES' during provisioning\n\n"
+ANSIBLE_PULL_REPOSITORY = ENV['ANSIBLE_PULL_REPOSITORY'] ? ENV['ANSIBLE_PULL_REPOSITORY'] : ''
+ROLES = ENV['ROLES'] ? ENV['ROLES'] : ''
+PLAYBOOKS = ENV['PLAYBOOKS'] ? ENV['PLAYBOOKS'] : ''
+
+if ENV['ROLES']
+else
+    puts "NO ROLES GIVEN... ASSUME WE ARE RUNNING ALREADY EXISTING"
+end
 
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -13,9 +21,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.synced_folder "../data", "/vagrant_data"
   config.vm.provider :virtualbox do |vb|
     # vb.gui = true
-    vb.name = "gittest"
     vb.customize ["modifyvm", :id, "--memory", "512"]
   end
 
-  config.vm.provision :shell, :inline => 'ANSIBLE_PULL_REPOSITORY=\'' + ENV['ANSIBLE_PULL_REPOSITORY'] + '\' PLAYBOOKS="' + ENV['PLAYBOOKS'] + '" ROLES="' + ENV['ROLES'] + '" /vagrant/vagrant-bootstrap'
+  config.vm.provision :shell, :inline => 'ANSIBLE_PULL_REPOSITORY=\'' + ANSIBLE_PULL_REPOSITORY + '\' PLAYBOOKS="' + PLAYBOOKS + '" ROLES="' + ROLES + '" /vagrant/vagrant-bootstrap'
 end
