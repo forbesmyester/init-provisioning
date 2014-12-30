@@ -4,7 +4,7 @@ apt-get -y install python-pip python-dev git
 pip install ansible
 [ ! -d /etc/ansible ] && mkdir /etc/ansible
 [ -f /etc/ansible/hosts ] && rm -f /etc/ansible/hosts
-for ROLE in $ROLES; do
+for ROLE in $(echo $ROLES | tr ";" "\n"); do
     echo "[${ROLE}]" >> /etc/ansible/hosts
     echo "127.0.0.1" >> /etc/ansible/hosts
     echo "" >> /etc/ansible/hosts
