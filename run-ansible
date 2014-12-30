@@ -1,5 +1,11 @@
 #!/bin/bash
 
-for PLAYBOOK in $PLAYBOOKS; do
-    ansible-pull -U $ANSIBLE_PULL_REPOSITORY ${PLAYBOOK}.yml
+for ONEREPO in $(echo $ANSIBLE_PULL_REPOSITORY_PLAYBOOK | tr ";" "\n")
+do
+    ANSIBLE_PULL_REPOSITORY=$(echo $ONEREPO | sed 's/\:\:.*//')
+    for PLAYBOOK in $(echo $ONEREPO | sed 's/.*\:\://' | tr "," "\n")
+    do
+        ansible-pull -U $ANSIBLE_PULL_REPOSITORY ${PLAYBOOK}.yml
+        # echo "R: $ANSIBLE_PULL_REPOSITORY -> $PLAYBOOK"
+    done
 done
