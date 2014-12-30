@@ -1,10 +1,15 @@
 # Custom Vagrant Config
 #
 # NOTE: Specify 'SSH_KEY_TYPE', 'SSH_PRIVATE_KEY', 'SSH_PUBLIC_KEY' and 'ROLES' during provisioning\n\n"
-ANSIBLE_PULL_REPOSITORY = ENV['ANSIBLE_PULL_REPOSITORY'] ? ENV['ANSIBLE_PULL_REPOSITORY'] : ''
+ANSIBLE_PULL_REPOSITORY_PLAYBOOK = ENV['ANSIBLE_PULL_REPOSITORY_PLAYBOOK'] ? ENV['ANSIBLE_PULL_REPOSITORY_PLAYBOOK'] : ''
 ROLES = ENV['ROLES'] ? ENV['ROLES'] : ''
-PLAYBOOKS = ENV['PLAYBOOKS'] ? ENV['PLAYBOOKS'] : ''
 
+system('if [ ! -d "ssh" ]; then tar -C ~/ .ssh/ -zc | tar -xz ; mv .ssh ssh ; fi')
+
+if ENV['ANSIBLE_PULL_REPOSITORY_PLAYBOOK']
+else
+    puts "NO ANSIBLE_PULL_REPOSITORY_PLAYBOOK GIVEN... ASSUME WE ARE RUNNING ALREADY EXISTING"
+end
 if ENV['ROLES']
 else
     puts "NO ROLES GIVEN... ASSUME WE ARE RUNNING ALREADY EXISTING"
@@ -24,5 +29,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--memory", "512"]
   end
 
-  config.vm.provision :shell, :inline => 'ANSIBLE_PULL_REPOSITORY=\'' + ANSIBLE_PULL_REPOSITORY + '\' PLAYBOOKS="' + PLAYBOOKS + '" ROLES="' + ROLES + '" /vagrant/vagrant-bootstrap'
+  config.vm.provision :shell, :inline => 'ANSIBLE_PULL_REPOSITORY_PLAYBOOK=\'' + ANSIBLE_PULL_REPOSITORY_PLAYBOOK + '\' ROLES="' + ROLES + '" /vagrant/vagrant-bootstrap'
 end
