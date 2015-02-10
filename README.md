@@ -4,7 +4,7 @@ These scripts are designed for starting Vagrant boxes using `ansible-pull` inter
 
 To use these scripts you need to run vagrant with environmental variables like the following:
 
-    ANSIBLE_PULL_REPOSITORY_PLAYBOOK='git@github.com:forbesmyester/provisioning-common.git::terminal_developer,gui_developer' ROLES=developer vagrant up
+    ANSIBLE_PULL_REPOSITORY_PLAYBOOK='git@github.com:forbesmyester/provisioning-common.git::terminal_developer,gui_developer;git@github.com:someother/repository::another_playbook' ROLES=developer vagrant up
 
 In this command `ANSIBLE_PULL_REPOSITORY_PLAYBOOK` includes a list of repositories and playbooks and ROLES defines a list of roles that the machine should have.
 
