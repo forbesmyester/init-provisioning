@@ -13,6 +13,7 @@ The Init Provisioning scripts are designed to allow easy development of Ansible 
 The following environmental variables are used:
 
 > `ROLES`: This is a semi colon separated list of all the roles you wish to give the virtual machine. These will be stored in `/etc/ansible/hosts`
+>
 > `ANSIBLE_PULL_REPOSITORY_PLAYBOOK`: This is a more complicated environmental variable consisting of:
 >
 >   * A Git repository
