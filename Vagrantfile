@@ -17,8 +17,8 @@ end
 
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ubuntu/trusty64"
-  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
+  config.vm.box = "puppetlabs/ubuntu-14.04-64-nocm"
+  config.vm.box_url = "https://atlas.hashicorp.com/puppetlabs/ubuntu-14.04-64-nocm/versions/1.0.1/providers/virtualbox.box"
   # config.vm.network "forwarded_port", guest: 80, host: 8080
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -27,6 +27,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider :virtualbox do |vb|
     # vb.gui = true
     vb.customize ["modifyvm", :id, "--memory", "512"]
+    if ENV['EXTRA_DISK_MB']
+        puts "CREATING HDD"
+        disk_name = 'extra_disk'
+        if ENV['EXTRA_DISK_FILENAME']
+            disk_name = ENV['EXTRA_DISK_FILENAME']
+        end
+        vb.customize ['createhd', '--filename', disk_name + '.vdi', '--size', ENV['EXTRA_DISK_MB'].to_i * 1024]
+        vb.customize ['storageattach', :id, '--storagectl', 'SATAController', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', disk_name + '.vdi']
+    end
   end
 
   config.vm.provision :shell, :inline => 'ANSIBLE_PULL_REPOSITORY_PLAYBOOK=\'' + ANSIBLE_PULL_REPOSITORY_PLAYBOOK + '\' ROLES="' + ROLES + '" /vagrant/vagrant-bootstrap'

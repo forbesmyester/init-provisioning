@@ -1,0 +1,10 @@
+#!/bin/sh
+DISK=$1 || $(ls /dev/?db)
+LVM_VOLUME="/$(lvdisplay  | grep -i "lv path" | grep root | sed 's/.* \///')"
+echo "ADDING $DISK"
+pvcreate /dev/sdb
+vgextend $(vgdisplay -s -A | sed 's/ *"//' | sed 's/".*//') /dev/sdb
+lvextend $LVM_VOLUME /dev/sdb
+resize2fs $LVM_VOLUME & # YES in linux you __can__ resize a mounted hard disk as a background process!!!
+
+
