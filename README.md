@@ -5,7 +5,7 @@ I have a desire set up virtual machines on my laptop using scripts for testing t
 The Init Provisioning scripts are designed to allow easy development of Ansible based virtual machines they perform the following tasks.
 
  * Copy your SSH config and keys from `~/.ssh/` into the virtual machine for authentication with GitHub etc.
- * Install libraries necessary to install Ansible using (pip)[http://en.wikipedia.org/wiki/Pip_%28package_manager%29]
+ * Install libraries necessary to install Ansible using [pip](http://en.wikipedia.org/wiki/Pip_%28package_manager%29)
  * Install Ansible.
  * Set up the `/etc/ansible/hosts` file with roles coming from an environmental variable.
  * Run `ansible-pull` on repositories and playbooks which are also configured from environmental variables.
