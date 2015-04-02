@@ -4,7 +4,7 @@
 ANSIBLE_PULL_REPOSITORY_PLAYBOOK = ENV['ANSIBLE_PULL_REPOSITORY_PLAYBOOK'] ? ENV['ANSIBLE_PULL_REPOSITORY_PLAYBOOK'] : ''
 ROLES = ENV['ROLES'] ? ENV['ROLES'] : ''
 
-system('if [ ! -d "ssh" ]; then tar -C ~/ .ssh/ -zc | tar -xz ; mv .ssh ssh ; fi')
+system('if [ ! -d "ssh" ]; then mkdir ssh && cp ~/.ssh/known_hosts ssh; fi')
 
 if ENV['ANSIBLE_PULL_REPOSITORY_PLAYBOOK']
 else
@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   # config.vm.network "private_network", ip: "192.168.33.10"
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  config.ssh.forward_agent = true # See https://coderwall.com/p/p3bj2a/cloning-from-github-in-vagrant-using-ssh-agent-forwarding
   config.vm.provider :virtualbox do |vb|
     # vb.gui = true
     vb.customize ["modifyvm", :id, "--memory", "512"]
