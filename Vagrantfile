@@ -26,8 +26,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.forward_agent = true # See https://coderwall.com/p/p3bj2a/cloning-from-github-in-vagrant-using-ssh-agent-forwarding
   config.vm.provider :virtualbox do |vb|
     # vb.gui = true
-    vb.customize ["modifyvm", :id, "--memory", "512"]
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
-  config.vm.provision :shell, :inline => 'ANSIBLE_PULL_REPOSITORY_PLAYBOOK=\'' + ANSIBLE_PULL_REPOSITORY_PLAYBOOK + '\' ROLES="' + ROLES + '" /vagrant/vagrant-bootstrap'
+  config.vm.provision :shell, :inline => 'HOST_IP=$(netstat -rn | grep "^0.0.0.0 " | cut -d " " -f10) ANSIBLE_PULL_REPOSITORY_PLAYBOOK=\'' + ANSIBLE_PULL_REPOSITORY_PLAYBOOK + '\' ROLES="' + ROLES + '" /vagrant/vagrant-bootstrap'
 end
