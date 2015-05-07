@@ -1,10 +1,14 @@
 #!/bin/bash
 
-for ONEREPO in $(echo $ANSIBLE_PULL_REPOSITORY_PLAYBOOK | tr ";" "\n")
-do
-    ANSIBLE_PULL_REPOSITORY=$(echo $ONEREPO | sed 's/\:\:.*//')
-    for PLAYBOOK in $(echo $ONEREPO | sed 's/.*\:\://' | tr "," "\n")
+if [ -n "$ANSIBLE_PULL_REPOSITORY_PLAYBOOK" ]; then
+
+    for ONEREPO in $(echo $ANSIBLE_PULL_REPOSITORY_PLAYBOOK | tr ";" "\n")
     do
-        ansible-pull --purge -U $ANSIBLE_PULL_REPOSITORY ${PLAYBOOK}.yml
+        ANSIBLE_PULL_REPOSITORY=$(echo $ONEREPO | sed 's/\:\:.*//')
+        for PLAYBOOK in $(echo $ONEREPO | sed 's/.*\:\://' | tr "," "\n")
+        do
+            ansible-pull --purge -U $ANSIBLE_PULL_REPOSITORY ${PLAYBOOK}.yml
+        done
     done
-done
+
+fi
